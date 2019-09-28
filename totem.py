@@ -87,10 +87,10 @@ def make_totem(username, use_outer_layer=True):
 use_outer_layer = len(sys.argv) < 3 or sys.argv[2].lower() in ["t", "true", "y", "yes"]
 totem = make_totem(sys.argv[1], use_outer_layer)
 
-os.makedirs("CustomTotem/assets/minecraft/textures/items", exist_ok=True)
+os.makedirs("CustomTotem/assets/minecraft/textures/item", exist_ok=True)
 with open("CustomTotem/pack.mcmeta", "w+") as pack_mcmeta:
     pack_mcmeta.write("{\"pack\":{\"pack_format\":4,\"description\":\"Replaces totems with 5space's skin\"}}")
 
 totem.save("CustomTotem/pack.png")
-totem.save("CustomTotem/assets/minecraft/textures/items/totem_of_undying.png")
+totem.save("CustomTotem/assets/minecraft/textures/item/totem_of_undying.png")
 totem.save("totem_of_undying.png")
