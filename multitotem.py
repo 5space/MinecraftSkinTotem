@@ -88,13 +88,21 @@ def make_totem(username, use_outer_layer=True):
     canvas.paste(left_arm_warped, (20, 12))
     return canvas
 
-use_outer_layer = len(sys.argv) < 3 or sys.argv[2].lower() in ["t", "true", "y", "yes"]
-totem = make_totem(sys.argv[1], use_outer_layer)
+with open("usernames.txt") as file:
+    usernames = map(lambda x: x.strip(), file.readlines())
 
-os.makedirs("CustomTotem/assets/minecraft/textures/item", exist_ok=True)
-with open("CustomTotem/pack.mcmeta", "w+") as pack_mcmeta:
-    pack_mcmeta.write("{\"pack\":{\"pack_format\":4,\"description\":\"Replaces totems with 5space's skin\"}}")
+os.makedirs("PlayerTotem/assets/minecraft/optifine/cit/playertotem/totems", exist_ok=True)
+with open("PlayerTotem/pack.mcmeta", "w+") as pack_mcmeta:
+    pack_mcmeta.write("{\"pack\":{\"pack_format\":4,\"description\":\"Replaces totems with various TGN users by name\"}}")
 
-totem.save("CustomTotem/pack.png")
-totem.save("CustomTotem/assets/minecraft/textures/item/totem_of_undying.png")
-totem.resize((256, 256)).save("preview.png")
+for username in usernames:
+    os.makedirs(f"PlayerTotem/assets/minecraft/optifine/cit/totems", exist_ok=True)
+    try:
+        totem = make_totem(username, True)
+        totem.save(f"PlayerTotem/assets/minecraft/optifine/cit/totems/{username.lower()}.png")
+        with open(f"PlayerTotem/assets/minecraft/optifine/cit/totems/{username.lower()}.properties", "w+") as file:
+            file.write(f"type=item\nmatchItems=totem_of_undying\ntexture.totem_of_undying={username.lower()}\nnbt.display.Name=ipattern:{username.lower()}")
+        print(f"Generated totem for {username}")
+    except Exception:
+        print(f"Skipped {username} due to error")
+    # totem.resize((256, 256)).save("preview.png")
