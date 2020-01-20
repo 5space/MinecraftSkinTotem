@@ -88,13 +88,15 @@ def make_totem(username, use_outer_layer=True):
     canvas.paste(left_arm_warped, (20, 12))
     return canvas
 
-use_outer_layer = len(sys.argv) < 3 or sys.argv[2].lower() in ["t", "true", "y", "yes"]
-totem = make_totem(sys.argv[1], use_outer_layer)
+if __name__ == "__main__":
+    username = sys.argv[1]
+    use_outer_layer = len(sys.argv) < 3 or sys.argv[2].lower() in ["t", "true", "y", "yes"]
+    totem = make_totem(username, use_outer_layer)
 
-os.makedirs("CustomTotem/assets/minecraft/textures/item", exist_ok=True)
-with open("CustomTotem/pack.mcmeta", "w+") as pack_mcmeta:
-    pack_mcmeta.write("{\"pack\":{\"pack_format\":4,\"description\":\"Replaces totems with 5space's skin\"}}")
+    os.makedirs("CustomTotem/assets/minecraft/textures/item", exist_ok=True)
+    with open("CustomTotem/pack.mcmeta", "w+") as pack_mcmeta:
+        pack_mcmeta.write("{\"pack\":{\"pack_format\":4,\"description\":\"Replaces totems with " + username + "'s skin\"}}")
 
-totem.save("CustomTotem/pack.png")
-totem.save("CustomTotem/assets/minecraft/textures/item/totem_of_undying.png")
-totem.resize((256, 256)).save("preview.png")
+    totem.save("CustomTotem/pack.png")
+    totem.save("CustomTotem/assets/minecraft/textures/item/totem_of_undying.png")
+    totem.resize((256, 256)).save("preview.png")
